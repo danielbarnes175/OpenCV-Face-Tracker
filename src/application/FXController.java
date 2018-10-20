@@ -34,27 +34,28 @@ public class FXController {
 	
 	@FXML
 	protected void startCamera(ActionEvent event) {
-		if (!isActive) {
+		if (!this.isActive) {
 		this.capture.open(cameraID);
 		if (this.capture.isOpened()) {
-		Runnable frameGrabber = new Runnable() {
-
-			@Override
-			public void run() {
-				Mat frame = grabFrame();
-				Image imageToShow = Utils.mat2Image(frame);
-				updateImageView(currentFrame, imageToShow);
-			}};
-		
-		this.timer = Executors.newSingleThreadScheduledExecutor();
-		this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
-		
-		this.button.setText("Stop");
+			this.isActive = true;
+			Runnable frameGrabber = new Runnable() {
+	
+				@Override
+				public void run() {
+					Mat frame = grabFrame();
+					Image imageToShow = Utils.mat2Image(frame);
+					updateImageView(currentFrame, imageToShow);
+				}};
+			
+			this.timer = Executors.newSingleThreadScheduledExecutor();
+			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+			
+			this.button.setText("Stop");
+			}
+			else {
+				System.err.println("Can't open camera connection.");
+			}
 		}
-		else {
-			System.err.println("Can't open camera connection.");
-		}
-	}
 		else {
 			isActive = false;
 			this.button.setText("Start Camera");
