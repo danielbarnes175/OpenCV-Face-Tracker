@@ -169,17 +169,13 @@ public class FXController {
 		//Ask Ryan if the arduino can take say a R and a L on the same line
 
 		char[] chars = string.toCharArray();
-		return new String(chars).getBytes();
+		return string.getBytes();
 	}
-<<<<<<< HEAD
 	
 	private void setBytes(byte[] givBytes) {
 		main.setBytes(givBytes);
 	}
-	
-=======
 
->>>>>>> 47a4a81094aacfb976c311b8d9d42b39e9a48119
 	protected void setClosed() {
 		this.stopAcquisition();
 		main.close();
