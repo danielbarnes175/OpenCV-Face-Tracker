@@ -50,11 +50,12 @@ public class FXController {
 		currentFrame.setFitWidth(600);
 		currentFrame.setPreserveRatio(true);
 		
-		main.initialize();
-		//main.run();
+
+
 	}
 	@FXML
 	protected void startCamera(ActionEvent event) {
+		main.initialize();
 		this.cascade.load("resources/haarcascades/haarcascade_frontalface_alt.xml");
 		if (!this.isActive) {
 		this.capture.open(cameraID);
@@ -112,7 +113,7 @@ public class FXController {
 			byte[] theBytes = rectToBytes(facesArray[i]);
 			setBytes(theBytes);
 			System.out.println(main.getBytes());
-
+			main.run();
 		}
 	}
 	
@@ -151,13 +152,13 @@ public class FXController {
 		return frame;
 	}
 	
-	private byte rectToBytes(Rect rect) {
-		String string = "u";
+	private byte[] rectToBytes(Rect rect) {
+		String string = "d";
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
 
 		char[] chars = string.toCharArray();
-		return string.getBytes();
+		return new String(chars).getBytes();
 	}
 	
 	private void setBytes(byte[] givBytes) {
