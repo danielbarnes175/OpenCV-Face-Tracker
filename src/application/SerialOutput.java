@@ -106,8 +106,8 @@ public class SerialOutput implements SerialPortEventListener {
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
-	public void setBytes(byte[] bytes) {
-		this.bytes = bytes[0];
+	public void setBytes(byte theBytes) {
+		this.bytes = theBytes;
 	}
 	public byte getBytes() {
 		return this.bytes;

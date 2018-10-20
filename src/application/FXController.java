@@ -28,8 +28,6 @@ import javafx.scene.image.ImageView;
 import utilities.Utils;
 
 public class FXController {
-/*Instance Variables*/
-	//Variables for FXML functions
 	@FXML
 	private Button button;
 	@FXML
@@ -47,10 +45,7 @@ public class FXController {
 	//Variables for facial recognition
 	private CascadeClassifier cascade = new CascadeClassifier();
 	private int faceSize = 0;
-/*End Instance Variables*/
-	/**
-	 * Initializes the frame with width and preserves the ratio
-	 */
+	
 	protected void init() {
 		currentFrame.setFitWidth(600);
 		currentFrame.setPreserveRatio(true);
@@ -58,17 +53,17 @@ public class FXController {
 
 
 	}
-	/**
-	 * Starts the camera
-	 * @param event
-	 */
 	@FXML
 	protected void startCamera(ActionEvent event) {
+<<<<<<< HEAD
 
 		//Loads the Haar Cascade to detect faces
 
 		main.initialize();
 
+=======
+		main.initialize();
+>>>>>>> 8485c26ec138def6bbca6530149d4116ec9d45bb
 		this.cascade.load("resources/haarcascades/haarcascade_frontalface_alt.xml");
 		if (!this.isActive) {
 		this.capture.open(cameraID);
@@ -82,10 +77,10 @@ public class FXController {
 					Image imageToShow = Utils.mat2Image(frame);
 					updateImageView(currentFrame, imageToShow);
 				}};
-			//Displays the video at 30FPS
+			
 			this.timer = Executors.newSingleThreadScheduledExecutor();
 			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
-			//Changes test of Button to correspond with the status of the camera
+			
 			this.button.setText("Stop Camera");
 			}
 			else {
@@ -100,10 +95,7 @@ public class FXController {
 		
 }
 	
-	/**
-	 * Detects the face in the Frame and 
-	 * @param frame
-	 */
+	
 	private void detectAndDisplayFace(Mat frame) {
 		
 		MatOfRect faces = new MatOfRect();
@@ -117,6 +109,7 @@ public class FXController {
 				this.faceSize = Math.round(height * 0.2f);
 			}
 		}
+		//System.out.println(faceSize);
 		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
 				new Size(this.faceSize,this.faceSize), new Size());
 	
@@ -126,9 +119,11 @@ public class FXController {
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
 			System.out.println(facesArray[i]);
 			byte[] theBytes = rectToBytes(facesArray[i]);
-			setBytes(theBytes);
+			for (int j = 0; j < theBytes.length; i++) {
+			main.setBytes(theBytes[j]);
 			System.out.println(main.getBytes());
 			main.run();
+			}
 		}
 	}
 	
@@ -168,22 +163,26 @@ public class FXController {
 	}
 	
 	private byte[] rectToBytes(Rect rect) {
+<<<<<<< HEAD
 
 		String string = "u";
 
 		String string1 = "d";
 
+=======
+		String string = "dulrddddulrduuuuudllll";
+>>>>>>> 8485c26ec138def6bbca6530149d4116ec9d45bb
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
 
 		char[] chars = string.toCharArray();
 		return new String(chars).getBytes();
 	}
-	
-	private void setBytes(byte[] givBytes) {
-		main.setBytes(givBytes);
+/*	
+	private void setBytes(byte[] theBytes) {
+		main.setBytes(theBytes);
 	}
-
+*/
 	protected void setClosed() {
 		this.stopAcquisition();
 		main.close();
