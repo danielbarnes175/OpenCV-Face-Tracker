@@ -50,7 +50,7 @@ public class FXController {
 	}
 	@FXML
 	protected void startCamera(ActionEvent event) {
-		this.cascade.load("C:/Users/Daniel/Desktop/opencv/build/java/haarcascade_frontalface_default.xml");
+		this.cascade.load("resources/haarcascades/haarcascade_frontalface_alt.xml");
 		if (!this.isActive) {
 		this.capture.open(cameraID);
 		if (this.capture.isOpened()) {
@@ -67,7 +67,7 @@ public class FXController {
 			this.timer = Executors.newSingleThreadScheduledExecutor();
 			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
 			
-			this.button.setText("Stop");
+			this.button.setText("Stop Camera");
 			}
 			else {
 				System.err.println("Can't open camera connection.");
@@ -78,29 +78,61 @@ public class FXController {
 			this.button.setText("Start Camera");
 			this.stopAcquisition();
 		}
-}
-	private void detectAndDisplayFace(Mat frame) {
 		
+}
+	
+	private void detectAndDisplayFace(Mat frame)
+	{
 		MatOfRect faces = new MatOfRect();
 		Mat grayFrame = new Mat();
 		
+		// convert the frame in gray scale
 		Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_BGR2GRAY);
+		// equalize the frame histogram to improve the result
+		Imgproc.equalizeHist(grayFrame, grayFrame);
 		
-		if (this.faceSize == 0) {
+		// compute minimum face size (20% of the frame height, in our case)
+		if (this.faceSize == 0)
+		{
 			int height = grayFrame.rows();
-			if (Math.round(height * 0.2f) > 0) {
+			if (Math.round(height * 0.2f) > 0)
+			{
 				this.faceSize = Math.round(height * 0.2f);
 			}
 		}
 		
-		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
-				new Size(this.faceSize,this.faceSize), new Size());
-	
+		// detect faces
+		this.cascade.detectMultiScale(grayFrame, faces, 1.1, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
+				new Size(this.faceSize, this.faceSize), new Size());
+				
+		// each rectangle in faces is a face: draw them!
 		Rect[] facesArray = faces.toArray();
-		for (int i = 0; i < facesArray.length; i++) {
-			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
-		}
+		for (int i = 0; i < facesArray.length; i++)
+			Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+			
 	}
+//	private void detectAndDisplayFace(Mat frame) {
+//		
+//		MatOfRect faces = new MatOfRect();
+//		Mat grayFrame = new Mat();
+//		
+//		Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_BGR2GRAY);
+//		
+//		if (this.faceSize == 0) {
+//			int height = grayFrame.rows();
+//			if (Math.round(height * 0.2f) > 0) {
+//				this.faceSize = Math.round(height * 0.2f);
+//			}
+//		}
+//		
+//		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
+//				new Size(this.faceSize,this.faceSize), new Size());
+//	
+//		Rect[] facesArray = faces.toArray();
+//		for (int i = 0; i < facesArray.length; i++) {
+//			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+//		}
+//	}
 	
 	protected void updateImageView(ImageView view, Image image) {
 		// TODO Auto-generated method stub

@@ -28,7 +28,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// create the stage with the given title and the previously created
 			// scene
-			primaryStage.setTitle("Big Brother is Watching");
+			primaryStage.setTitle("Big Brother is Watching We need To change this");
 			primaryStage.setScene(scene);
 			// show the GUI
 			primaryStage.show();
