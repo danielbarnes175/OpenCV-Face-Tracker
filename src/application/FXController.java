@@ -39,6 +39,9 @@ public class FXController {
 	private boolean isActive = false;
 	private static int cameraID = 0;
 	
+	//Variables for outputstream
+	public SerialOutput main = new SerialOutput();
+	
 	//Variables for facial recognition
 	private CascadeClassifier cascade = new CascadeClassifier();
 	private int faceSize = 0;
@@ -47,6 +50,8 @@ public class FXController {
 		currentFrame.setFitWidth(600);
 		currentFrame.setPreserveRatio(true);
 		
+		main.initialize();
+		//main.run();
 	}
 	@FXML
 	protected void startCamera(ActionEvent event) {
@@ -104,7 +109,10 @@ public class FXController {
 		for (int i = 0; i < facesArray.length; i++) {
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
 			System.out.println(facesArray[i]);
-			
+			byte[] theBytes = rectToBytes(facesArray[i]);
+			setBytes(theBytes);
+			System.out.println(main.getBytes());
+
 		}
 	}
 	
@@ -142,21 +150,22 @@ public class FXController {
 		}
 		return frame;
 	}
-	private byte[] rectToBytes(Rect[] rect) {
-		String string = "";
+	
+	private byte[] rectToBytes(Rect rect) {
+		String string = "u";
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
 
 		char[] chars = string.toCharArray();
 		return new String(chars).getBytes();
 	}
-	private byte[] stringToBytes(String string) {
-		char[] chars = string.toCharArray();
-		int[] bytes = getBytes(chars);
-		return -1;
+	
+	private void setBytes(byte[] givBytes) {
+		main.setBytes(givBytes);
 	}
 	
 	protected void setClosed() {
 		this.stopAcquisition();
+		main.close();
 	}
 }
