@@ -64,11 +64,11 @@ public class FXController {
 	 */
 	@FXML
 	protected void startCamera(ActionEvent event) {
-<<<<<<< HEAD
+
 		//Loads the Haar Cascade to detect faces
-=======
+
 		main.initialize();
->>>>>>> 2a02d826f8f0cb9d0931744a2c951e468fad2f31
+
 		this.cascade.load("resources/haarcascades/haarcascade_frontalface_alt.xml");
 		if (!this.isActive) {
 		this.capture.open(cameraID);
@@ -168,11 +168,11 @@ public class FXController {
 	}
 	
 	private byte[] rectToBytes(Rect rect) {
-<<<<<<< HEAD
+
 		String string = "u";
-=======
-		String string = "d";
->>>>>>> 2a02d826f8f0cb9d0931744a2c951e468fad2f31
+
+		String string1 = "d";
+
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
 
