@@ -95,13 +95,15 @@ public class FXController {
 				this.faceSize = Math.round(height * 0.2f);
 			}
 		}
-		
+		//System.out.println(faceSize);
 		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
 				new Size(this.faceSize,this.faceSize), new Size());
 	
 		Rect[] facesArray = faces.toArray();
+		
 		for (int i = 0; i < facesArray.length; i++) {
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+			System.out.println(facesArray[i]);
 		}
 	}
 	
