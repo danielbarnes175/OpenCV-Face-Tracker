@@ -99,37 +99,44 @@ public class FXController {
 				this.faceSize = Math.round(height * 0.2f);
 			}
 		}
-		//System.out.println(faceSize);
+
 		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
 				new Size(this.faceSize,this.faceSize), new Size());
 	
 		Rect[] facesArray = faces.toArray();
 		
 		for (int i = 0; i < facesArray.length; i++) {
+			//Draw the rectangle around the face
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+			
+			//Print out the data of the rectangle for testing.
 			System.out.println(facesArray[i]);
+			
+			//Process the distance from center of each rectangle
 			byte[] theBytes = rectToBytes(facesArray[i]);
 			main.setBytesLeftRight(theBytes[0]);
-			System.out.println(main.getBytesLeftRight());
 			main.setBytesUpDown(theBytes[1]);
+			
+			//Print out the bytes that we're passing to the Arduino
+			System.out.println(main.getBytesLeftRight());
 			System.out.println(main.getBytesUpDown());
+			
+			//Pass the byte to the Arduino.
 			main.run();
 			}
 		}
 	
 	
 	protected void updateImageView(ImageView view, Image image) {
-		// TODO Auto-generated method stub
 		Utils.onFXThread(view.imageProperty(), image);
 	}
 
 	private void stopAcquisition() {
-		// TODO Auto-generated method stub
 		try {
 			this.timer.shutdown();
 			this.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
-			} catch (InterruptedException e) {
-				System.err.println("Exception while stopping frame capture" + e);
+		} catch (InterruptedException e) {
+			System.err.println("Exception while stopping frame capture" + e);
 			}
 			if (this.capture.isOpened()) {
 				this.capture.release();
@@ -139,16 +146,15 @@ public class FXController {
 	protected Mat grabFrame() {
 		Mat frame = new Mat();
 		if (capture.isOpened()) {
-		try {
-		this.capture.read(frame);
-		if (!frame.empty()) {
-			Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2RGB);
-			this.detectAndDisplayFace(frame);
-			}
-		
-		} catch(Exception e) {
-			System.err.println("grabFrame gets an exception: " + e);
-			}
+			try {
+				this.capture.read(frame);
+				if (!frame.empty()) {
+					Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2RGB);
+					this.detectAndDisplayFace(frame);
+					}
+				} catch(Exception e) {
+					System.err.println("grabFrame gets an exception: " + e);
+					}
 		}
 		return frame;
 	}
@@ -160,11 +166,6 @@ public class FXController {
 		int faceCornerX = rect.x;
 		int faceCornerY = rect.y;
 		
-		//Determines the length of one side of the square around the Face
-//		rect.replaceAll("[\\D]", "");
-//		int mid = rect[2].length() / 2;
-//		String boxLengthString = rect[2].substring(0, mid);
-//		int boxLength = rect.width / 2;
 		//Determines the center of the square given the length
 		int boxMid = rect.width / 2;
 		
@@ -197,9 +198,6 @@ public class FXController {
 	
 	private byte[] rectToBytes(Rect rect) {
 		String string = movementCalc(rect);
-
-		//Do calculations for figuring out how many directions we want to input.
-		//Ask Ryan if the arduino can take say a R and a L on the same line
 
 		char[] chars = string.toCharArray();
 		return new String(chars).getBytes();
