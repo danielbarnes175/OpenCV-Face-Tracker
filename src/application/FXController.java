@@ -104,6 +104,7 @@ public class FXController {
 		for (int i = 0; i < facesArray.length; i++) {
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
 			System.out.println(facesArray[i]);
+			
 		}
 	}
 	
@@ -141,7 +142,19 @@ public class FXController {
 		}
 		return frame;
 	}
+	private byte[] rectToBytes(Rect[] rect) {
+		String string = "";
+		//Do calculations for figuring out how many directions we want to input.
+		//Ask Ryan if the arduino can take say a R and a L on the same line
 
+		char[] chars = string.toCharArray();
+		return new String(chars).getBytes();
+	}
+	private byte[] stringToBytes(String string) {
+		char[] chars = string.toCharArray();
+		int[] bytes = getBytes(chars);
+		return -1;
+	}
 	
 	protected void setClosed() {
 		this.stopAcquisition();
