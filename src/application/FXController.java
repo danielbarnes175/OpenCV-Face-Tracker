@@ -87,7 +87,7 @@ public class FXController {
 		try {
 		this.capture.read(frame);
 		if (!frame.empty()) {
-			Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
+			Imgproc.cvtColor(frame, frame, Imgproc.COLOR_RGBA2RGB);
 			}
 		
 		} catch(Exception e) {
