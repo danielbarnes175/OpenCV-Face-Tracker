@@ -109,13 +109,14 @@ public class FXController {
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
 			System.out.println(facesArray[i]);
 			byte[] theBytes = rectToBytes(facesArray[i]);
-			for (int j = 0; j < theBytes.length; i++) {
-			main.setBytes(theBytes[j]);
-			System.out.println(main.getBytes());
+			main.setBytesLeftRight(theBytes[0]);
+			System.out.println(main.getBytesLeftRight());
+			main.setBytesUpDown(theBytes[1]);
+			System.out.println(main.getBytesUpDown());
 			main.run();
 			}
 		}
-	}
+	
 	
 	protected void updateImageView(ImageView view, Image image) {
 		// TODO Auto-generated method stub
@@ -153,7 +154,7 @@ public class FXController {
 	}
 	
 	private byte[] rectToBytes(Rect rect) {
-		String string = "dulrddddulrduuuuudllll";
+		String string = "urlrddddulrduuuuudllll";
 
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
@@ -161,11 +162,7 @@ public class FXController {
 		char[] chars = string.toCharArray();
 		return new String(chars).getBytes();
 	}
-/*	
-	private void setBytes(byte[] theBytes) {
-		main.setBytes(theBytes);
-	}
-*/
+
 	protected void setClosed() {
 		this.stopAcquisition();
 		main.close();

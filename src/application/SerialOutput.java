@@ -32,7 +32,8 @@ public class SerialOutput implements SerialPortEventListener {
 	/** Default bits per second for COM port. */
 	private static final int DATA_RATE = 9600;
 	
-	private byte bytes;
+	private byte bytesLeftRight;
+	private byte bytesUpDown;
 
 	public void initialize() {
                 // the next line is for Raspberry Pi and 
@@ -106,18 +107,24 @@ public class SerialOutput implements SerialPortEventListener {
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
-	public void setBytes(byte theBytes) {
-		this.bytes = theBytes;
+	public void setBytesLeftRight(byte theBytes) {
+		this.bytesLeftRight = theBytes;
 	}
-	public byte getBytes() {
-		return this.bytes;
-		
+	public void setBytesUpDown(byte theBytes) {
+		this.bytesUpDown = theBytes;
+	}
+	public byte getBytesLeftRight() {
+		return this.bytesLeftRight;
+	}
+	public byte getBytesUpDown() {
+		return this.bytesUpDown;
 	}
 	public void run() {
 		System.out.println(this.output);
 		try {
 		
-		this.output.write(this.bytes);
+		this.output.write(this.bytesLeftRight);
+		this.output.write(this.bytesUpDown);
 		} catch (Exception e) {
 			System.err.println("If you see this, something is wrong with the Serial output: " + e);
 		}
