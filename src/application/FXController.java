@@ -159,11 +159,15 @@ public class FXController {
 		char[] chars = string.toCharArray();
 		return new String(chars).getBytes();
 	}
+<<<<<<< HEAD
 	
 	private void setBytes(byte[] givBytes) {
 		main.setBytes(givBytes);
 	}
 	
+=======
+
+>>>>>>> 47a4a81094aacfb976c311b8d9d42b39e9a48119
 	protected void setClosed() {
 		this.stopAcquisition();
 		main.close();
