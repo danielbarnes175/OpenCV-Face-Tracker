@@ -153,8 +153,56 @@ public class FXController {
 		return frame;
 	}
 	
+	
+	private String movementCalc(Rect rect) {
+		String movementString = "";
+		//Determines the X and Y coordinates for the top left corner of the Face
+		int faceCornerX = rect.x;
+		int faceCornerY = rect.y;
+		
+		//Determines the length of one side of the square around the Face
+//		rect.replaceAll("[\\D]", "");
+//		int mid = rect[2].length() / 2;
+//		String boxLengthString = rect[2].substring(0, mid);
+//		int boxLength = rect.width / 2;
+		//Determines the center of the square given the length
+		int boxMid = rect.width / 2;
+		
+		//Determines the X and Y coordinates of the center of the Face
+		int faceCenterX = faceCornerX + boxMid;
+		int faceCenterY = faceCornerY + boxMid;
+		
+		//Determines the Center of the entire frame given width is 800 and height is 600
+		int frameCenterX = 400;
+		int frameCenterY = 300;
+		
+		//Determines Vertical Movement 
+		if (faceCenterY > frameCenterY) {
+			movementString += "u";
+		}
+		else if(faceCenterY < frameCenterY) {
+			movementString += "d";
+		}
+		//Determines Horizontal Movement
+		if (faceCenterX > frameCenterX) {
+			movementString += "l";
+		}
+		else if(faceCenterX < frameCenterX) {
+			movementString += "r";
+		}
+		
+		//Returns a string consisting of two characters (one for the vertical movement and one for the horizontal movement)
+		return movementString;
+	}
+	
 	private byte[] rectToBytes(Rect rect) {
+<<<<<<< HEAD
 		String string = "urlrddddulrduuuuudllll";
+||||||| merged common ancestors
+		String string = "dulrddddulrduuuuudllll";
+=======
+		String string = movementCalc(rect);
+>>>>>>> e6728a3a8dfd06b4d29e5d40202fa826401cca92
 
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
