@@ -150,12 +150,7 @@ public class FXController {
 		char[] chars = string.toCharArray();
 		return new String(chars).getBytes();
 	}
-	private byte[] stringToBytes(String string) {
-		char[] chars = string.toCharArray();
-		int[] bytes = getBytes(chars);
-		return -1;
-	}
-	
+
 	protected void setClosed() {
 		this.stopAcquisition();
 	}
