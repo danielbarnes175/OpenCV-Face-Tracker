@@ -28,6 +28,8 @@ import javafx.scene.image.ImageView;
 import utilities.Utils;
 
 public class FXController {
+/*Instance Variables*/
+	//Variables for FXML functions
 	@FXML
 	private Button button;
 	@FXML
@@ -42,14 +44,22 @@ public class FXController {
 	//Variables for facial recognition
 	private CascadeClassifier cascade = new CascadeClassifier();
 	private int faceSize = 0;
-	
+/*End Instance Variables*/
+	/**
+	 * Initializes the frame with width and preserves the ratio
+	 */
 	protected void init() {
 		currentFrame.setFitWidth(600);
 		currentFrame.setPreserveRatio(true);
 		
 	}
+	/**
+	 * Starts the camera
+	 * @param event
+	 */
 	@FXML
 	protected void startCamera(ActionEvent event) {
+		//Loads the Haar Cascade to detect faces
 		this.cascade.load("resources/haarcascades/haarcascade_frontalface_alt.xml");
 		if (!this.isActive) {
 		this.capture.open(cameraID);
@@ -63,10 +73,10 @@ public class FXController {
 					Image imageToShow = Utils.mat2Image(frame);
 					updateImageView(currentFrame, imageToShow);
 				}};
-			
+			//Displays the video at 30FPS
 			this.timer = Executors.newSingleThreadScheduledExecutor();
 			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
-			
+			//Changes test of Button to correspond with the status of the camera
 			this.button.setText("Stop Camera");
 			}
 			else {
@@ -81,7 +91,10 @@ public class FXController {
 		
 }
 	
-	
+	/**
+	 * Detects the face in the Frame and 
+	 * @param frame
+	 */
 	private void detectAndDisplayFace(Mat frame) {
 		
 		MatOfRect faces = new MatOfRect();
@@ -95,7 +108,6 @@ public class FXController {
 				this.faceSize = Math.round(height * 0.2f);
 			}
 		}
-		//System.out.println(faceSize);
 		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
 				new Size(this.faceSize,this.faceSize), new Size());
 	
