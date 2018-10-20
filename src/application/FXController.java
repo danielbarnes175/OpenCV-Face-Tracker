@@ -196,13 +196,7 @@ public class FXController {
 	}
 	
 	private byte[] rectToBytes(Rect rect) {
-<<<<<<< HEAD
-		String string = "urlrddddulrduuuuudllll";
-||||||| merged common ancestors
-		String string = "dulrddddulrduuuuudllll";
-=======
 		String string = movementCalc(rect);
->>>>>>> e6728a3a8dfd06b4d29e5d40202fa826401cca92
 
 		//Do calculations for figuring out how many directions we want to input.
 		//Ask Ryan if the arduino can take say a R and a L on the same line
