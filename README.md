@@ -1,4 +1,4 @@
-# Facial Recognition and Tracking
+# Facial Detection and Tracking
 
 This code was created for HackISU October 2018.
 
