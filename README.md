@@ -20,7 +20,7 @@ The features of the device are to track a person's face and move the camera such
 
 -------------------------------------------------------------------------------------------------------
 #### *Created By:*
-Daniel Barnes
-Ryan Spitz
-Thaddeus Hill
+Daniel Barnes,
+Ryan Spitz,
+Thaddeus Hill,
 Jacob Dorsal
