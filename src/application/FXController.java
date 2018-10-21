@@ -69,7 +69,7 @@ public class FXController {
 				}};
 			
 			this.timer = Executors.newSingleThreadScheduledExecutor();
-			this.timer.scheduleAtFixedRate(frameGrabber, 0, 66, TimeUnit.MILLISECONDS);
+			this.timer.scheduleAtFixedRate(frameGrabber, 0, 8, TimeUnit.MILLISECONDS);
 			
 			this.button.setText("Stop Camera");
 			}
@@ -180,7 +180,16 @@ public class FXController {
 		int frameCenterX = 400;
 		int frameCenterY = 300;
 		
-		int mOE = 10;
+		
+		int mOE = 30;
+		boolean centered = false;
+
+		
+		if((faceCenterX >= frameCenterX - mOE && faceCenterX <= frameCenterX + mOE) &&(faceCenterY >= frameCenterY - mOE && faceCenterY <= frameCenterY + mOE) )
+		{
+			centered = true;
+		}
+		if(!centered) {
 		//Determines Vertical Movement 
 		if (faceCenterY > frameCenterY + mOE) {
 			movementString += "d";
@@ -195,7 +204,7 @@ public class FXController {
 		else if(faceCenterX < frameCenterX + mOE) {
 			movementString += "l";
 		}
-		
+		}
 		//Returns a string consisting of two characters (one for the vertical movement and one for the horizontal movement)
 		return movementString;
 	}
