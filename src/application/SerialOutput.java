@@ -36,12 +36,7 @@ public class SerialOutput implements SerialPortEventListener {
 	private byte bytesUpDown;
 
 	public void initialize() {
-                // the next line is for Raspberry Pi and 
-                // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
-                //System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
-//		bytesLeftRight = null;
-//		bytesUpDown = (Byte) null;
 		CommPortIdentifier portId = null;
 		@SuppressWarnings("rawtypes")
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -109,7 +104,6 @@ public class SerialOutput implements SerialPortEventListener {
 			}
 			
 		}
-		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
 	public void setBytesLeftRight(byte theBytes) {
 		this.bytesLeftRight = theBytes;
