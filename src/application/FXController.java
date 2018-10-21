@@ -88,6 +88,7 @@ public class FXController {
 	
 	private void detectAndDisplayFace(Mat frame) {
 		
+		Rect[] facesArray = null;
 		MatOfRect faces = new MatOfRect();
 		Mat grayFrame = new Mat();
 		
@@ -103,14 +104,14 @@ public class FXController {
 		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
 				new Size(this.faceSize,this.faceSize), new Size());
 	
-		Rect[] facesArray = faces.toArray();
+		facesArray = faces.toArray();
 		
 		for (int i = 0; i < facesArray.length; i++) {
 			//Draw the rectangle around the face
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
 			
-			//Print out the data of the rectangle for testing.
-			System.out.println(facesArray[i]);
+//			//Print out the data of the rectangle for testing.
+//			System.out.println(facesArray[i]);
 			
 			//Process the distance from center of each rectangle
 			byte[] theBytes = rectToBytes(facesArray[i]);
@@ -118,11 +119,13 @@ public class FXController {
 			main.setBytesUpDown(theBytes[1]);
 			
 			//Print out the bytes that we're passing to the Arduino
-			System.out.println(main.getBytesLeftRight());
-			System.out.println(main.getBytesUpDown());
+//			System.out.println(main.getBytesLeftRight());
+//			System.out.println(main.getBytesUpDown());
 			
 			//Pass the byte to the Arduino.
 			main.run();
+			facesArray = null;
+			//TimeUnit.MILLISECONDS.toMillis(50);
 			}
 		}
 	
@@ -177,19 +180,20 @@ public class FXController {
 		int frameCenterX = 400;
 		int frameCenterY = 300;
 		
+		int mOE = 10;
 		//Determines Vertical Movement 
-		if (faceCenterY > frameCenterY) {
-			movementString += "u";
-		}
-		else if(faceCenterY < frameCenterY) {
+		if (faceCenterY > frameCenterY + mOE) {
 			movementString += "d";
 		}
-		//Determines Horizontal Movement
-		if (faceCenterX > frameCenterX) {
-			movementString += "l";
+		else if(faceCenterY < frameCenterY + mOE) {
+			movementString += "u";
 		}
-		else if(faceCenterX < frameCenterX) {
+		//Determines Horizontal Movement
+		if (faceCenterX > frameCenterX + mOE) {
 			movementString += "r";
+		}
+		else if(faceCenterX < frameCenterX + mOE) {
+			movementString += "l";
 		}
 		
 		//Returns a string consisting of two characters (one for the vertical movement and one for the horizontal movement)
