@@ -1,6 +1,8 @@
 # Facial Detection and Tracking
 
-This code was created for HackISU October 2018.
+This code was created for HackISU October 2018 over the course of 36 hours from scratch.
+
+[DevPost](https://devpost.com/software/facial-recognition-and-tracking)
 
 ![image](https://user-images.githubusercontent.com/31489642/47264432-ed10e080-d4dc-11e8-971d-79e9f892a593.png)
 
