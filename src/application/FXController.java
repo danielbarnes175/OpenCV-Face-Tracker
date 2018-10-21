@@ -69,7 +69,7 @@ public class FXController {
 				}};
 			
 			this.timer = Executors.newSingleThreadScheduledExecutor();
-			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+			this.timer.scheduleAtFixedRate(frameGrabber, 0, 66, TimeUnit.MILLISECONDS);
 			
 			this.button.setText("Stop Camera");
 			}
