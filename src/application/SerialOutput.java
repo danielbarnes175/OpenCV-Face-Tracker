@@ -32,7 +32,7 @@ public class SerialOutput implements SerialPortEventListener {
 	/** Default bits per second for COM port. */
 	private static final int DATA_RATE = 9600;
 	
-	private byte bytesLeftRight;
+	private byte bytesLeftRight ;
 	private byte bytesUpDown;
 
 	public void initialize() {
@@ -105,8 +105,9 @@ public class SerialOutput implements SerialPortEventListener {
 				String inputLine=input.readLine();
 				System.out.println(inputLine);
 			} catch (Exception e) {
-				System.err.println(e.toString());
+				
 			}
+			
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}

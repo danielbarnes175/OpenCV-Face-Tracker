@@ -69,7 +69,7 @@ public class FXController {
 				}};
 			
 			this.timer = Executors.newSingleThreadScheduledExecutor();
-			this.timer.scheduleAtFixedRate(frameGrabber, 0, 8, TimeUnit.MILLISECONDS);
+			this.timer.scheduleAtFixedRate(frameGrabber, 0, 16, TimeUnit.MILLISECONDS);
 			
 			this.button.setText("Stop Camera");
 			}
@@ -88,7 +88,6 @@ public class FXController {
 	
 	private void detectAndDisplayFace(Mat frame) {
 		
-		Rect[] facesArray = null;
 		MatOfRect faces = new MatOfRect();
 		Mat grayFrame = new Mat();
 		
@@ -104,14 +103,12 @@ public class FXController {
 		this.cascade.detectMultiScale(grayFrame, faces,1.1,2,0 | Objdetect.CASCADE_SCALE_IMAGE,
 				new Size(this.faceSize,this.faceSize), new Size());
 	
-		facesArray = faces.toArray();
+		Rect[] facesArray = faces.toArray();
 		
 		for (int i = 0; i < facesArray.length; i++) {
 			//Draw the rectangle around the face
 			Imgproc.rectangle(frame,facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
 			
-//			//Print out the data of the rectangle for testing.
-//			System.out.println(facesArray[i]);
 			
 			//Process the distance from center of each rectangle
 			byte[] theBytes = rectToBytes(facesArray[i]);
@@ -119,13 +116,10 @@ public class FXController {
 			main.setBytesUpDown(theBytes[1]);
 			
 			//Print out the bytes that we're passing to the Arduino
-//			System.out.println(main.getBytesLeftRight());
-//			System.out.println(main.getBytesUpDown());
-			
+
 			//Pass the byte to the Arduino.
 			main.run();
-			facesArray = null;
-			//TimeUnit.MILLISECONDS.toMillis(50);
+
 			}
 		}
 	
@@ -169,41 +163,43 @@ public class FXController {
 		int faceCornerX = rect.x;
 		int faceCornerY = rect.y;
 		
-		//Determines the center of the square given the length
-		int boxMid = rect.width / 2;
 		
 		//Determines the X and Y coordinates of the center of the Face
-		int faceCenterX = faceCornerX + boxMid;
-		int faceCenterY = faceCornerY + boxMid;
+		int faceCenterX = faceCornerX + rect.width;
+		int faceCenterY = faceCornerY + rect.width;
 		
 		//Determines the Center of the entire frame given width is 800 and height is 600
 		int frameCenterX = 400;
 		int frameCenterY = 300;
 		
 		
-		int mOE = 30;
+		int mOEX = 30;
+		int mOEY = 40;
 		boolean centered = false;
 
 		
-		if((faceCenterX >= frameCenterX - mOE && faceCenterX <= frameCenterX + mOE) &&(faceCenterY >= frameCenterY - mOE && faceCenterY <= frameCenterY + mOE) )
+		if((faceCenterX >= frameCenterX - mOEX && faceCenterX <= frameCenterX + mOEX) &&(faceCenterY >= frameCenterY - mOEY && faceCenterY <= frameCenterY + mOEY) )
 		{
 			centered = true;
+			
 		}
-		if(!centered) {
-		//Determines Vertical Movement 
-		if (faceCenterY > frameCenterY + mOE) {
-			movementString += "d";
+		
+		if (!centered) {
+			// Determines Vertical Movement
+			if (faceCenterY > frameCenterY + mOEY) {
+				movementString += "d";
+			} else if (faceCenterY < frameCenterY + mOEY) {
+				movementString += "u";
+			}
+			// Determines Horizontal Movement
+			if (faceCenterX > frameCenterX + mOEX) {
+				movementString += "r";
+			} else if (faceCenterX < frameCenterX + mOEX) {
+				movementString += "l";
+			}
 		}
-		else if(faceCenterY < frameCenterY + mOE) {
-			movementString += "u";
-		}
-		//Determines Horizontal Movement
-		if (faceCenterX > frameCenterX + mOE) {
-			movementString += "r";
-		}
-		else if(faceCenterX < frameCenterX + mOE) {
-			movementString += "l";
-		}
+		else if(centered){
+			movementString += "NN";
 		}
 		//Returns a string consisting of two characters (one for the vertical movement and one for the horizontal movement)
 		return movementString;
