@@ -23,4 +23,4 @@ The features of the device are to track a person's face and move the camera such
 Daniel Barnes,
 Ryan Spitz,
 Thaddeus Hill,
-Jacob Dorsal
+Jacob Dorstal
